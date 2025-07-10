@@ -1,17 +1,38 @@
 library(shiny)
+library(flextable)
 library(bslib)
 
 # Some notes: Each gen adds to the last, i.e. gen 1 mons move sets are different than
 # gen 1 mons in gen 2, etc. This is going to be an exponential amount of work
 
 # Looking over some resources, I want data frames and to put them into tables
-# Problem: multirow tables
+# Problem: multirow tables. Solution: flextable
+# Thing to maybe add later: sprites :)
+
+# WHAT YOU WANT: https://www.youtube.com/watch?v=_as239LdGvY 6:48 in
+# Sample code:
+#dat <- data.frame(
+#    let1 = c("a", "b", "b"),
+#    let2 = c("d", "c", "e")
+#)
+#x <- flextable(dat)
+#merge_v(x)
+#^ this works to display data how you want!
 
 # Pokemon data
 # Gen 1 moves
 gen_1_pokemon <- data.frame(
-    Pokemon = c("Bulbasaur"),
+    Pokemon = c(replicate(10, "Bulbasaur"), "Squirtle"),
+    Level = c((1:10), 1),
+    Move = c((1:10), 1),
+    Type = c((1:10), 1),
+    Power = c((1:10), 1),
+    Accuracy = c((1:10), 1),
+    pp = c((1:10), 1)
 )
+
+gen_1_pokemon_flex <- flextable(gen_1_pokemon)
+merge_v(gen_1_pokemon_flex)
 
 # Gen 2 moves
 
