@@ -21,7 +21,7 @@ library(bslib)
 
 # Pokemon data
 # Gen 1 moves
-gen_1_pokemon <- data.frame(
+gen_1_pkm <- data.frame(
     Pokemon = c(replicate(10, "Bulbasaur"), "Squirtle"),
     Level = c((1:10), 1),
     Move = c((1:10), 1),
@@ -31,8 +31,9 @@ gen_1_pokemon <- data.frame(
     pp = c((1:10), 1)
 )
 
-gen_1_pokemon_flex <- flextable(gen_1_pokemon)
-merge_v(gen_1_pokemon_flex)
+gen_1_pkm_flex <- flextable(gen_1_pkm)
+vm_gen_1_pkm_flex <- merge_v(gen_1_pkm_flex)
+
 
 # Gen 2 moves
 
@@ -50,8 +51,30 @@ merge_v(gen_1_pokemon_flex)
 
 # Gen 9 moves
 
+# Pokemon generation option
+gen_select <- c(1:9)
+
+
 # User interface
+ui <- fluidPage(
+    selectInput("dataset", label = "Dataset", choices = ls("package:datasets")),
+    verbatimTextOutput("summary"),
+    tableOutput("table")
+)
+
 
 # Server
+server <- function(input, output, session) {
+    output$summary <- renderPrint({
+        dataset <- get(input$dataset, "package:datasets")
+        summary(dataset)
+    })
+
+    output$table <- renderTable({
+        dataset <- get(input$dataset, "package:datasets")
+        dataset
+    })
+}
 
 # calling shinyApp
+shinyApp(ui, server)
