@@ -26,16 +26,49 @@ library(DT)
 # gen_1_pkm_flex <- flextable(gen_1_pkm)
 # mv_gen_1_pkm_flex <- merge_v(gen_1_pkm_flex)
 
+# Some generic vectors to make my life easier
+g1_pkm_moves = c("Absorb")
+g2_pkm_moves = c("Absorb")
+g3_pkm_moves = c("Absorb")
+g4_pkm_moves = c("Absorb")
+g5_pkm_moves = c("Absorb")
+g6_pkm_moves = c("Absorb")
+g7_pkm_moves = c("Absorb")
+g8_pkm_moves = c("Absorb")
+g9_pkm_moves = c("Absorb")
+
+g1_pkm_types = c()
+
 # Pokemon data
 # Gen 1 moves
 gen_1_pkm <- data.frame(
-    Pokemon = c(replicate(10, "Bulbasaur"), "Squirtle"),
-    Level = c((1:10), 1),
-    Move = c((1:10), 1),
-    Type = c((1:10), 1),
-    Power = c((1:10), 1),
-    Accuracy = c((1:10), 1),
-    pp = c((1:10), 1)
+    Pokemon = c(replicate(9, "Bulbasaur")),
+    Level = c(c(1, 1, 7, 13, 20, 27, 34, 41, 48)),
+    Move = c(c(
+        "Growl",
+        "Tackle",
+        "Leech Seed",
+        "Vine Whip",
+        "Poison Powder",
+        "Razor Leaf",
+        "Growth",
+        "Sleep Powder",
+        "Solar Beam"
+    )),
+    Type = c(c(
+        "Normal",
+        "Normal",
+        "Grass",
+        "Grass",
+        "Poison",
+        "Grass",
+        "Normal",
+        "Grass",
+        "Grass"
+    )),
+    Power = c(c("-", "35", "-", "35", "-", "55", "-", "-", "120")),
+    Accuracy = c(c("100", "95", "90", "100", "75", "95", "-", "75", "100")),
+    pp = c(c(40, 35, 10, 25, 35, 25, 20, 15, 10))
 )
 
 
