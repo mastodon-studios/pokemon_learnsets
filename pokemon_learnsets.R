@@ -22,6 +22,10 @@ library(DT)
 #merge_v(x)
 #^ this works to display data how you want!
 
+# Flextable example of what you might want in the future
+# gen_1_pkm_flex <- flextable(gen_1_pkm)
+# mv_gen_1_pkm_flex <- merge_v(gen_1_pkm_flex)
+
 # Pokemon data
 # Gen 1 moves
 gen_1_pkm <- data.frame(
@@ -34,14 +38,10 @@ gen_1_pkm <- data.frame(
     pp = c((1:10), 1)
 )
 
-# keeping these for now as an example
-gen_1_pkm_flex <- flextable(gen_1_pkm)
-mv_gen_1_pkm_flex <- merge_v(gen_1_pkm_flex)
-
 
 # Gen 2 moves
 gen_2_pkm <- data.frame(
-    Pokemon = c(replicate(10, "Bulbasaur"), "Squirtle"),
+    Pokemon = c(replicate(10, "Charmander"), "Squirtle"),
     Level = c((1:10), 1),
     Move = c((1:10), 1),
     Type = c((1:10), 1),
@@ -50,30 +50,132 @@ gen_2_pkm <- data.frame(
     pp = c((1:10), 1)
 )
 
+
 # Gen 3 moves
+gen_3_pkm <- data.frame(
+    Pokemon = c(replicate(10, "Bellsprout"), "Squirtle"),
+    Level = c((1:10), 1),
+    Move = c((1:10), 1),
+    Type = c((1:10), 1),
+    Power = c((1:10), 1),
+    Accuracy = c((1:10), 1),
+    pp = c((1:10), 1)
+)
+
 
 # Gen 4 moves
+gen_4_pkm <- data.frame(
+    Pokemon = c(replicate(10, "Raticate"), "Squirtle"),
+    Level = c((1:10), 1),
+    Move = c((1:10), 1),
+    Type = c((1:10), 1),
+    Power = c((1:10), 1),
+    Accuracy = c((1:10), 1),
+    pp = c((1:10), 1)
+)
+
 
 # Gen 5 moves
+gen_5_pkm <- data.frame(
+    Pokemon = c(replicate(10, "Articuno"), "Squirtle"),
+    Level = c((1:10), 1),
+    Move = c((1:10), 1),
+    Type = c((1:10), 1),
+    Power = c((1:10), 1),
+    Accuracy = c((1:10), 1),
+    pp = c((1:10), 1)
+)
+
 
 # Gen 6 moves
+gen_6_pkm <- data.frame(
+    Pokemon = c(replicate(10, "Starmie"), "Squirtle"),
+    Level = c((1:10), 1),
+    Move = c((1:10), 1),
+    Type = c((1:10), 1),
+    Power = c((1:10), 1),
+    Accuracy = c((1:10), 1),
+    pp = c((1:10), 1)
+)
+
 
 # Gen 7 moves
+gen_7_pkm <- data.frame(
+    Pokemon = c(replicate(10, "Abra"), "Squirtle"),
+    Level = c((1:10), 1),
+    Move = c((1:10), 1),
+    Type = c((1:10), 1),
+    Power = c((1:10), 1),
+    Accuracy = c((1:10), 1),
+    pp = c((1:10), 1)
+)
+
 
 # Gen 8 moves
+gen_8_pkm <- data.frame(
+    Pokemon = c(replicate(10, "Pidgey"), "Squirtle"),
+    Level = c((1:10), 1),
+    Move = c((1:10), 1),
+    Type = c((1:10), 1),
+    Power = c((1:10), 1),
+    Accuracy = c((1:10), 1),
+    pp = c((1:10), 1)
+)
+
 
 # Gen 9 moves
-
-# Pokemon generation option
-gen_select <- c(1:9)
+gen_9_pkm <- data.frame(
+    Pokemon = c(replicate(10, "Charmander"), "Squirtle"),
+    Level = c((1:10), 1),
+    Move = c((1:10), 1),
+    Type = c((1:10), 1),
+    Power = c((1:10), 1),
+    Accuracy = c((1:10), 1),
+    pp = c((1:10), 1)
+)
 
 
 # User interface
 ui <- fluidPage(
     #textOutput("test"),
-
-    selectInput("generations", "Generation Selector", gen_select),
-    DT::DTOutput("gen1")
+    tabsetPanel(
+        tabPanel(
+            "Gen 1",
+            DT::DTOutput("gen1")
+        ),
+        tabPanel(
+            "Gen 2",
+            DT::DTOutput("gen2")
+        ),
+        tabPanel(
+            "Gen 3",
+            DT::DTOutput("gen3")
+        ),
+        tabPanel(
+            "Gen 4",
+            DT::DTOutput("gen4")
+        ),
+        tabPanel(
+            "Gen 5",
+            DT::DTOutput("gen5")
+        ),
+        tabPanel(
+            "Gen 6",
+            DT::DTOutput("gen6")
+        ),
+        tabPanel(
+            "Gen 7",
+            DT::DTOutput("gen7")
+        ),
+        tabPanel(
+            "Gen 8",
+            DT::DTOutput("gen8")
+        ),
+        tabPanel(
+            "Gen 9",
+            DT::DTOutput("gen9")
+        )
+    )
 )
 
 
@@ -85,29 +187,187 @@ server <- function(input, output, session) {
     #    }
     #)
 
-    # I want to conditionally show the table based on the selector input
-    # tackle this another day
-    if (input$generations == 1) {
-        output$gen1 <- DT::renderDT(
-            {
-                dtable <- datatable(
-                    gen_1_pkm,
-                    rownames = FALSE,
-                    options = list(rowsGroup = list(0))
-                )
-                path <- "/home/nick/R/x86_64-pc-linux-gnu-library/4.5/DT"
-                dep <- htmltools::htmlDependency(
-                    "RowsGroup",
-                    "2.0.0",
-                    path,
-                    script = "dataTables.rowsGroup.js"
-                )
-                dtable$dependencies <- c(dtable$dependencies, list(dep))
-                dtable
-            }
-        )
-    } else {}
+    # Gen 1 table
+    output$gen1 <- DT::renderDT(
+        {
+            dtable <- datatable(
+                gen_1_pkm,
+                rownames = FALSE,
+                options = list(rowsGroup = list(0))
+            )
+            path <- "/home/nick/R/x86_64-pc-linux-gnu-library/4.5/DT"
+            dep <- htmltools::htmlDependency(
+                "RowsGroup",
+                "2.0.0",
+                path,
+                script = "dataTables.rowsGroup.js"
+            )
+            dtable$dependencies <- c(dtable$dependencies, list(dep))
+            dtable
+        }
+    )
+
+    # Gen 2 table
+    output$gen2 <- DT::renderDT(
+        {
+            dtable <- datatable(
+                gen_2_pkm,
+                rownames = FALSE,
+                options = list(rowsGroup = list(0))
+            )
+            path <- "/home/nick/R/x86_64-pc-linux-gnu-library/4.5/DT"
+            dep <- htmltools::htmlDependency(
+                "RowsGroup",
+                "2.0.0",
+                path,
+                script = "dataTables.rowsGroup.js"
+            )
+            dtable$dependencies <- c(dtable$dependencies, list(dep))
+            dtable
+        }
+    )
+
+    # Gen 3 table
+    output$gen3 <- DT::renderDT(
+        {
+            dtable <- datatable(
+                gen_3_pkm,
+                rownames = FALSE,
+                options = list(rowsGroup = list(0))
+            )
+            path <- "/home/nick/R/x86_64-pc-linux-gnu-library/4.5/DT"
+            dep <- htmltools::htmlDependency(
+                "RowsGroup",
+                "2.0.0",
+                path,
+                script = "dataTables.rowsGroup.js"
+            )
+            dtable$dependencies <- c(dtable$dependencies, list(dep))
+            dtable
+        }
+    )
+
+    # Gen 4 table
+    output$gen4 <- DT::renderDT(
+        {
+            dtable <- datatable(
+                gen_4_pkm,
+                rownames = FALSE,
+                options = list(rowsGroup = list(0))
+            )
+            path <- "/home/nick/R/x86_64-pc-linux-gnu-library/4.5/DT"
+            dep <- htmltools::htmlDependency(
+                "RowsGroup",
+                "2.0.0",
+                path,
+                script = "dataTables.rowsGroup.js"
+            )
+            dtable$dependencies <- c(dtable$dependencies, list(dep))
+            dtable
+        }
+    )
+
+    # Gen 5 table
+    output$gen5 <- DT::renderDT(
+        {
+            dtable <- datatable(
+                gen_5_pkm,
+                rownames = FALSE,
+                options = list(rowsGroup = list(0))
+            )
+            path <- "/home/nick/R/x86_64-pc-linux-gnu-library/4.5/DT"
+            dep <- htmltools::htmlDependency(
+                "RowsGroup",
+                "2.0.0",
+                path,
+                script = "dataTables.rowsGroup.js"
+            )
+            dtable$dependencies <- c(dtable$dependencies, list(dep))
+            dtable
+        }
+    )
+
+    # Gen 6 table
+    output$gen6 <- DT::renderDT(
+        {
+            dtable <- datatable(
+                gen_6_pkm,
+                rownames = FALSE,
+                options = list(rowsGroup = list(0))
+            )
+            path <- "/home/nick/R/x86_64-pc-linux-gnu-library/4.5/DT"
+            dep <- htmltools::htmlDependency(
+                "RowsGroup",
+                "2.0.0",
+                path,
+                script = "dataTables.rowsGroup.js"
+            )
+            dtable$dependencies <- c(dtable$dependencies, list(dep))
+            dtable
+        }
+    )
+
+    # Gen 7 table
+    output$gen7 <- DT::renderDT(
+        {
+            dtable <- datatable(
+                gen_7_pkm,
+                rownames = FALSE,
+                options = list(rowsGroup = list(0))
+            )
+            path <- "/home/nick/R/x86_64-pc-linux-gnu-library/4.5/DT"
+            dep <- htmltools::htmlDependency(
+                "RowsGroup",
+                "2.0.0",
+                path,
+                script = "dataTables.rowsGroup.js"
+            )
+            dtable$dependencies <- c(dtable$dependencies, list(dep))
+            dtable
+        }
+    )
+
+    # Gen 8 table
+    output$gen8 <- DT::renderDT(
+        {
+            dtable <- datatable(
+                gen_8_pkm,
+                rownames = FALSE,
+                options = list(rowsGroup = list(0))
+            )
+            path <- "/home/nick/R/x86_64-pc-linux-gnu-library/4.5/DT"
+            dep <- htmltools::htmlDependency(
+                "RowsGroup",
+                "2.0.0",
+                path,
+                script = "dataTables.rowsGroup.js"
+            )
+            dtable$dependencies <- c(dtable$dependencies, list(dep))
+            dtable
+        }
+    )
+
+    # Gen 9 table
+    output$gen9 <- DT::renderDT(
+        {
+            dtable <- datatable(
+                gen_9_pkm,
+                rownames = FALSE,
+                options = list(rowsGroup = list(0))
+            )
+            path <- "/home/nick/R/x86_64-pc-linux-gnu-library/4.5/DT"
+            dep <- htmltools::htmlDependency(
+                "RowsGroup",
+                "2.0.0",
+                path,
+                script = "dataTables.rowsGroup.js"
+            )
+            dtable$dependencies <- c(dtable$dependencies, list(dep))
+            dtable
+        }
+    )
 }
+
 
 # calling shinyApp
 shinyApp(ui, server)
