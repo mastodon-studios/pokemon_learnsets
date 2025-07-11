@@ -37,7 +37,33 @@ g7_pkm_moves = c("Absorb")
 g8_pkm_moves = c("Absorb")
 g9_pkm_moves = c("Absorb")
 
-g1_pkm_types = c()
+pkm_types = c(
+    "Normal",
+    "Fire",
+    "Fighting",
+    "Water",
+    "Flying",
+    "Grass",
+    "Poison",
+    "Electric",
+    "Ground",
+    "Psychic",
+    "Rock",
+    "Ice",
+    "Bug",
+    "Dragon",
+    "Ghost",
+    "Dark",
+    "Steel",
+    "Fairy"
+)
+
+pkm_accuracies = seq(30, 100, 5)
+
+pkm_pp = seq(5, 40, 5)
+
+pkm_power = c(10, 250, 5)
+
 
 # Pokemon data
 # Gen 1 moves
@@ -56,15 +82,15 @@ gen_1_pkm <- data.frame(
         "Solar Beam"
     )),
     Type = c(c(
-        "Normal",
-        "Normal",
-        "Grass",
-        "Grass",
-        "Poison",
-        "Grass",
-        "Normal",
-        "Grass",
-        "Grass"
+        pkm_types[1],
+        pkm_types[1],
+        pkm_types[6],
+        pkm_types[6],
+        pkm_types[7],
+        pkm_types[6],
+        pkm_types[1],
+        pkm_types[6],
+        pkm_types[6]
     )),
     Power = c(c("-", "35", "-", "35", "-", "55", "-", "-", "120")),
     Accuracy = c(c("100", "95", "90", "100", "75", "95", "-", "75", "100")),
@@ -170,7 +196,6 @@ gen_9_pkm <- data.frame(
 
 # User interface
 ui <- fluidPage(
-    #textOutput("test"),
     tabsetPanel(
         tabPanel(
             "Gen 1",
@@ -214,12 +239,6 @@ ui <- fluidPage(
 
 # Server
 server <- function(input, output, session) {
-    #output$test <- renderText(
-    #    {
-    #        paste("Current Gen is:", input$generations)
-    #    }
-    #)
-
     # Gen 1 table
     output$gen1 <- DT::renderDT(
         {
@@ -228,14 +247,14 @@ server <- function(input, output, session) {
                 rownames = FALSE,
                 options = list(rowsGroup = list(0))
             )
-            path <- "/home/nick/R/x86_64-pc-linux-gnu-library/4.5/DT"
+            path <- getwd()
             dep <- htmltools::htmlDependency(
                 "RowsGroup",
                 "2.0.0",
                 path,
                 script = "dataTables.rowsGroup.js"
             )
-            dtable$dependencies <- c(dtable$dependencies, list(dep))
+            dtable$dependencies = c(dtable$dependencies, list(dep))
             dtable
         }
     )
@@ -248,14 +267,14 @@ server <- function(input, output, session) {
                 rownames = FALSE,
                 options = list(rowsGroup = list(0))
             )
-            path <- "/home/nick/R/x86_64-pc-linux-gnu-library/4.5/DT"
+            path <- getwd()
             dep <- htmltools::htmlDependency(
                 "RowsGroup",
                 "2.0.0",
                 path,
                 script = "dataTables.rowsGroup.js"
             )
-            dtable$dependencies <- c(dtable$dependencies, list(dep))
+            dtable$dependencies = c(dtable$dependencies, list(dep))
             dtable
         }
     )
@@ -268,14 +287,14 @@ server <- function(input, output, session) {
                 rownames = FALSE,
                 options = list(rowsGroup = list(0))
             )
-            path <- "/home/nick/R/x86_64-pc-linux-gnu-library/4.5/DT"
+            path <- getwd()
             dep <- htmltools::htmlDependency(
                 "RowsGroup",
                 "2.0.0",
                 path,
                 script = "dataTables.rowsGroup.js"
             )
-            dtable$dependencies <- c(dtable$dependencies, list(dep))
+            dtable$dependencies = c(dtable$dependencies, list(dep))
             dtable
         }
     )
@@ -288,14 +307,14 @@ server <- function(input, output, session) {
                 rownames = FALSE,
                 options = list(rowsGroup = list(0))
             )
-            path <- "/home/nick/R/x86_64-pc-linux-gnu-library/4.5/DT"
+            path <- getwd()
             dep <- htmltools::htmlDependency(
                 "RowsGroup",
                 "2.0.0",
                 path,
                 script = "dataTables.rowsGroup.js"
             )
-            dtable$dependencies <- c(dtable$dependencies, list(dep))
+            dtable$dependencies = c(dtable$dependencies, list(dep))
             dtable
         }
     )
@@ -308,14 +327,14 @@ server <- function(input, output, session) {
                 rownames = FALSE,
                 options = list(rowsGroup = list(0))
             )
-            path <- "/home/nick/R/x86_64-pc-linux-gnu-library/4.5/DT"
+            path <- getwd()
             dep <- htmltools::htmlDependency(
                 "RowsGroup",
                 "2.0.0",
                 path,
                 script = "dataTables.rowsGroup.js"
             )
-            dtable$dependencies <- c(dtable$dependencies, list(dep))
+            dtable$dependencies = c(dtable$dependencies, list(dep))
             dtable
         }
     )
@@ -328,14 +347,14 @@ server <- function(input, output, session) {
                 rownames = FALSE,
                 options = list(rowsGroup = list(0))
             )
-            path <- "/home/nick/R/x86_64-pc-linux-gnu-library/4.5/DT"
+            path <- getwd()
             dep <- htmltools::htmlDependency(
                 "RowsGroup",
                 "2.0.0",
                 path,
                 script = "dataTables.rowsGroup.js"
             )
-            dtable$dependencies <- c(dtable$dependencies, list(dep))
+            dtable$dependencies = c(dtable$dependencies, list(dep))
             dtable
         }
     )
@@ -348,14 +367,14 @@ server <- function(input, output, session) {
                 rownames = FALSE,
                 options = list(rowsGroup = list(0))
             )
-            path <- "/home/nick/R/x86_64-pc-linux-gnu-library/4.5/DT"
+            path <- getwd()
             dep <- htmltools::htmlDependency(
                 "RowsGroup",
                 "2.0.0",
                 path,
                 script = "dataTables.rowsGroup.js"
             )
-            dtable$dependencies <- c(dtable$dependencies, list(dep))
+            dtable$dependencies = c(dtable$dependencies, list(dep))
             dtable
         }
     )
@@ -368,14 +387,14 @@ server <- function(input, output, session) {
                 rownames = FALSE,
                 options = list(rowsGroup = list(0))
             )
-            path <- "/home/nick/R/x86_64-pc-linux-gnu-library/4.5/DT"
+            path <- getwd()
             dep <- htmltools::htmlDependency(
                 "RowsGroup",
                 "2.0.0",
                 path,
                 script = "dataTables.rowsGroup.js"
             )
-            dtable$dependencies <- c(dtable$dependencies, list(dep))
+            dtable$dependencies = c(dtable$dependencies, list(dep))
             dtable
         }
     )
@@ -388,14 +407,14 @@ server <- function(input, output, session) {
                 rownames = FALSE,
                 options = list(rowsGroup = list(0))
             )
-            path <- "/home/nick/R/x86_64-pc-linux-gnu-library/4.5/DT"
+            path <- getwd()
             dep <- htmltools::htmlDependency(
                 "RowsGroup",
                 "2.0.0",
                 path,
                 script = "dataTables.rowsGroup.js"
             )
-            dtable$dependencies <- c(dtable$dependencies, list(dep))
+            dtable$dependencies = c(dtable$dependencies, list(dep))
             dtable
         }
     )
