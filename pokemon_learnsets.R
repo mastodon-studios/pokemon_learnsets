@@ -26,44 +26,12 @@ library(DT)
 # gen_1_pkm_flex <- flextable(gen_1_pkm)
 # mv_gen_1_pkm_flex <- merge_v(gen_1_pkm_flex)
 
-# Some generic vectors to make my life easier
-g1_pkm_moves = c("Absorb")
-g2_pkm_moves = c("Absorb")
-g3_pkm_moves = c("Absorb")
-g4_pkm_moves = c("Absorb")
-g5_pkm_moves = c("Absorb")
-g6_pkm_moves = c("Absorb")
-g7_pkm_moves = c("Absorb")
-g8_pkm_moves = c("Absorb")
-g9_pkm_moves = c("Absorb")
+# PokeAPI has all of the pokemon data by default
+# DO NOT FORGET TO CREDIT THEM APPROPRIATELY
 
-pkm_types = c(
-    "Normal",
-    "Fire",
-    "Fighting",
-    "Water",
-    "Flying",
-    "Grass",
-    "Poison",
-    "Electric",
-    "Ground",
-    "Psychic",
-    "Rock",
-    "Ice",
-    "Bug",
-    "Dragon",
-    "Ghost",
-    "Dark",
-    "Steel",
-    "Fairy"
-)
-
-pkm_accuracies = seq(30, 100, 5)
-
-pkm_pp = seq(5, 40, 5)
-
-pkm_power = c(10, 250, 5)
-
+# Need to: from pkm_moves_by_lvl, link pkm_id and version_id
+# to the appropriate gen, exclude TMs/HMs, then link move_id
+# to the correct move
 
 # Pokemon data
 # Gen 1 moves
