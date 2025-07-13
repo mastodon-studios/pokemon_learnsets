@@ -33,36 +33,37 @@ library(DT)
 # to the appropriate gen, exclude TMs/HMs, then link move_id
 # to the correct move
 
+# CSV data
+list_of_pkm <- read.csv("list_of_pkm.csv")
+pkm_mvs_by_lvl <- read.csv("pkm_moves_by_lvl.csv")
+pkm_mvs <- read.csv("pkm_moves.csv")
+pkm_types <- read.csv("pkm_types.csv")
+
+
+head(list_of_pkm)
+head(list_of_pkm[2, 2])
+# gets the specific name; column # stays the same, change row #
+# order: row #, col #
+
 # Pokemon data
 # Gen 1 moves
+list_of_g1_pkm <- c()
+
+i <- 1
+while (i < 152) {
+    list_of_g1_pkm <- append(list_of_g1_pkm, list_of_pkm[i, 2])
+    i <- i + 1
+}
+
+
 gen_1_pkm <- data.frame(
-    Pokemon = c(replicate(9, "Bulbasaur")),
-    Level = c(c(1, 1, 7, 13, 20, 27, 34, 41, 48)),
-    Move = c(c(
-        "Growl",
-        "Tackle",
-        "Leech Seed",
-        "Vine Whip",
-        "Poison Powder",
-        "Razor Leaf",
-        "Growth",
-        "Sleep Powder",
-        "Solar Beam"
-    )),
-    Type = c(c(
-        pkm_types[1],
-        pkm_types[1],
-        pkm_types[6],
-        pkm_types[6],
-        pkm_types[7],
-        pkm_types[6],
-        pkm_types[1],
-        pkm_types[6],
-        pkm_types[6]
-    )),
-    Power = c(c("-", "35", "-", "35", "-", "55", "-", "-", "120")),
-    Accuracy = c(c("100", "95", "90", "100", "75", "95", "-", "75", "100")),
-    pp = c(c(40, 35, 10, 25, 35, 25, 20, 15, 10))
+    Pokedex = c(1:151),
+    Pokemon = list_of_g1_pkm,
+    Level = c(1:151),
+    Move = c(1:151),
+    Power = c(1:151),
+    Accuracy = c(1:151),
+    pp = c(1:151)
 )
 
 
