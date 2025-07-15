@@ -40,30 +40,97 @@ pkm_mvs <- read.csv("pkm_moves.csv")
 pkm_types <- read.csv("pkm_types.csv")
 
 
-head(list_of_pkm)
-head(list_of_pkm[2, 2])
-# gets the specific name; column # stays the same, change row #
-# order: row #, col #
-
 # Pokemon data
 # Gen 1 moves
-list_of_g1_pkm <- c()
+g1_pkm_rby_pokeid <- c()
+g1_pkm_rby_name <- c()
+g1_pkm_rby_moveid <- c()
+g1_pkm_rby_movenames <- c()
+g1_pkm_rby_level <- c()
 
-i <- 1
-while (i < 152) {
-    list_of_g1_pkm <- append(list_of_g1_pkm, list_of_pkm[i, 2])
-    i <- i + 1
+
+# sorting g1 into groups (?)
+x <- 1
+while (pkm_mvs_by_lvl[x, 1] < 152) {
+    if (pkm_mvs_by_lvl[x, 2] == 1 & pkm_mvs_by_lvl[x, 5] > 0) {
+        g1_pkm_rby_pokeid <- append(g1_pkm_rby_pokeid, pkm_mvs_by_lvl[x, 1])
+        g1_pkm_rby_moveid <- append(g1_pkm_rby_moveid, pkm_mvs_by_lvl[x, 3])
+        g1_pkm_rby_level <- append(g1_pkm_rby_level, pkm_mvs_by_lvl[x, 5])
+
+        x <- x + 1
+    } else if (pkm_mvs_by_lvl[x, 2] == 2) {
+        x <- x + 1
+    } else if (pkm_mvs_by_lvl[x, 2] == 3) {
+        x <- x + 1
+    } else if (pkm_mvs_by_lvl[x, 2] == 4) {
+        x <- x + 1
+    } else if (pkm_mvs_by_lvl[x, 2] == 5) {
+        x <- x + 1
+    } else if (pkm_mvs_by_lvl[x, 2] == 6) {
+        x <- x + 1
+    } else if (pkm_mvs_by_lvl[x, 2] == 7) {
+        x <- x + 1
+    } else if (pkm_mvs_by_lvl[x, 2] == 8) {
+        x <- x + 1
+    } else if (pkm_mvs_by_lvl[x, 2] == 9) {
+        x <- x + 1
+    } else {
+        x <- x + 1
+    }
 }
 
 
+y <- 1
+z <- 1
+for (y in g1_pkm_rby_pokeid) {
+    if (g1_pkm_rby_pokeid[y] == list_of_pkm[z, 1]) {
+        g1_pkm_rby_name <- append(g1_pkm_rby_name, list_of_pkm[z, 2])
+
+        y <- y + 1
+    } else {
+        z <- z + 1
+    }
+}
+
+g1_pkm_rby_movenames <- c()
+a <- 1
+b <- 1
+c <- 1
+for (x in length(g1_pkm_rby_moveid)) {
+    if (g1_pkm_rby_moveid[b] == pkm_mvs[c, 1]) {
+        g1_pkm_rby_movenames <- append(g1_pkm_rby_movenames, pkm_mvs[c, 2])
+
+        b <- b + 1
+        c <- 1
+        print(a)
+    } else {
+        c <- c + 1
+    }
+}
+
+tail(g1_pkm_rby_moveid, 100)
+
+
+print(pkm_mvs_by_lvl[34, 2])
+head(pkm_mvs_by_lvl[, c(1, 2, 3, 5)])
+head(pkm_mvs_by_lvl[1, 5])
+# poke_id, version_group, move_id, level
+head(list_of_pkm[3, 1])
+head(g1_pkm_rby_pokeid[1])
+head(g1_pkm_rby_moveid[1])
+head(pkm_mvs[33, 1])
+
+pkm_mvs[33, 1] == g1_pkm_rby_moveid[1]
+
+
 gen_1_pkm <- data.frame(
-    Pokedex = c(1:151),
-    Pokemon = list_of_g1_pkm,
-    Level = c(1:151),
-    Move = c(1:151),
-    Power = c(1:151),
-    Accuracy = c(1:151),
-    pp = c(1:151)
+    #Pokedex = c(1:151),
+    Pokemon = g1_pkm_rby_name,
+    Level = g1_pkm_rby_level,
+    Move = c(1:1069),
+    Power = c(1:1069),
+    Accuracy = c(1:1069),
+    pp = c(1:1069)
 )
 
 
