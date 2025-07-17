@@ -46,10 +46,15 @@ g1_pkm_rby_pokeid <- c()
 g1_pkm_rby_name <- c()
 g1_pkm_rby_moveid <- c()
 g1_pkm_rby_movenames <- c()
+g1_pkm_rby_movetypeid <- c()
+g1_pkm_rby_movetype <- c()
+g1_pkm_rby_movepower <- c()
+g1_pkm_rby_moveacc <- c()
+g1_pkm_rby_movepp <- c()
 g1_pkm_rby_level <- c()
 
 
-# sorting g1 into groups (?)
+# sorting g1 into groups
 x <- 1
 while (pkm_mvs_by_lvl[x, 1] < 152) {
     if (pkm_mvs_by_lvl[x, 2] == 1 & pkm_mvs_by_lvl[x, 5] > 0) {
@@ -80,9 +85,10 @@ while (pkm_mvs_by_lvl[x, 1] < 152) {
 }
 
 
+# DON'T TOUCH
 y <- 1
 z <- 1
-for (y in g1_pkm_rby_pokeid) {
+while (z < 152 & y < 1091) {
     if (g1_pkm_rby_pokeid[y] == list_of_pkm[z, 1]) {
         g1_pkm_rby_name <- append(g1_pkm_rby_name, list_of_pkm[z, 2])
 
@@ -92,45 +98,50 @@ for (y in g1_pkm_rby_pokeid) {
     }
 }
 
-g1_pkm_rby_movenames <- c()
+
+# DON'T TOUCH
 a <- 1
 b <- 1
-c <- 1
-for (x in length(g1_pkm_rby_moveid)) {
-    if (g1_pkm_rby_moveid[b] == pkm_mvs[c, 1]) {
-        g1_pkm_rby_movenames <- append(g1_pkm_rby_movenames, pkm_mvs[c, 2])
+while (b < 920 & a < 1091) {
+    if (g1_pkm_rby_moveid[a] == pkm_mvs[b, 1]) {
+        g1_pkm_rby_movenames <- append(g1_pkm_rby_movenames, pkm_mvs[b, 2])
+        g1_pkm_rby_movetypeid <- append(g1_pkm_rby_movetypeid, pkm_mvs[b, 4])
+        g1_pkm_rby_movepower <- append(g1_pkm_rby_movepower, pkm_mvs[b, 5])
+        g1_pkm_rby_movepp <- append(g1_pkm_rby_movepp, pkm_mvs[b, 6])
+        g1_pkm_rby_moveacc <- append(g1_pkm_rby_moveacc, pkm_mvs[b, 7])
 
-        b <- b + 1
-        c <- 1
-        print(a)
+        a <- a + 1
+        b <- 1
     } else {
-        c <- c + 1
+        b <- b + 1
     }
 }
 
-tail(g1_pkm_rby_moveid, 100)
 
+# DON'T TOUCH
+w <- 1
+q <- 1
+while (w < 1091) {
+    if (g1_pkm_rby_movetypeid[w] == pkm_types[q, 1]) {
+        g1_pkm_rby_movetype <- append(g1_pkm_rby_movetype, pkm_types[q, 2])
 
-print(pkm_mvs_by_lvl[34, 2])
-head(pkm_mvs_by_lvl[, c(1, 2, 3, 5)])
-head(pkm_mvs_by_lvl[1, 5])
-# poke_id, version_group, move_id, level
-head(list_of_pkm[3, 1])
-head(g1_pkm_rby_pokeid[1])
-head(g1_pkm_rby_moveid[1])
-head(pkm_mvs[33, 1])
-
-pkm_mvs[33, 1] == g1_pkm_rby_moveid[1]
+        w <- w + 1
+        q <- 1
+    } else {
+        q <- q + 1
+    }
+}
 
 
 gen_1_pkm <- data.frame(
-    #Pokedex = c(1:151),
+    Pokedex = g1_pkm_rby_pokeid,
     Pokemon = g1_pkm_rby_name,
     Level = g1_pkm_rby_level,
-    Move = c(1:1069),
-    Power = c(1:1069),
-    Accuracy = c(1:1069),
-    pp = c(1:1069)
+    Move = g1_pkm_rby_movenames,
+    Type = g1_pkm_rby_movetype,
+    Power = g1_pkm_rby_movepower,
+    pp = g1_pkm_rby_movepp,
+    Accuracy = g1_pkm_rby_moveacc
 )
 
 
@@ -281,7 +292,7 @@ server <- function(input, output, session) {
             dtable <- datatable(
                 gen_1_pkm,
                 rownames = FALSE,
-                options = list(rowsGroup = list(0))
+                options = list(rowsGroup = list(0, 1))
             )
             path <- getwd()
             dep <- htmltools::htmlDependency(
