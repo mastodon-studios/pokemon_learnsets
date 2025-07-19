@@ -40,27 +40,56 @@ pkm_types <- read.csv("pkm_types.csv")
 
 
 # Pokemon data
+# Data is separated on a per game basis, per gen
+
+# Oh also the code is REALLY bad but I'm not trying
+# to optimize it here. I just want something that works
+
 # Gen 1 moves
 g1_mv_func <- function() {
-    g1_pkm_rby_pokeid <- c()
-    g1_pkm_rby_name <- c()
-    g1_pkm_rby_moveid <- c()
-    g1_pkm_rby_movenames <- c()
-    g1_pkm_rby_movetypeid <- c()
-    g1_pkm_rby_movetype <- c()
-    g1_pkm_rby_movepower <- c()
-    g1_pkm_rby_moveacc <- c()
-    g1_pkm_rby_movepp <- c()
-    g1_pkm_rby_level <- c()
+    g1_pkm_rb_pokeid <- c()
+    g1_pkm_rb_name <- c()
+    g1_pkm_rb_moveid <- c()
+    g1_pkm_rb_movenames <- c()
+    g1_pkm_rb_movetypeid <- c()
+    g1_pkm_rb_movetype <- c()
+    g1_pkm_rb_movepower <- c()
+    g1_pkm_rb_moveacc <- c()
+    g1_pkm_rb_movepp <- c()
+    g1_pkm_rb_level <- c()
+
+    g1_pkm_y_pokeid <- c()
+    g1_pkm_y_name <- c()
+    g1_pkm_y_moveid <- c()
+    g1_pkm_y_movenames <- c()
+    g1_pkm_y_movetypeid <- c()
+    g1_pkm_y_movetype <- c()
+    g1_pkm_y_movepower <- c()
+    g1_pkm_y_moveacc <- c()
+    g1_pkm_y_movepp <- c()
+    g1_pkm_y_level <- c()
 
     # getting g1 pokemon with the right moveset
     # 152: Max gen number is 151; no easy way to get this otherwise I don't think
     x <- 1
     while (pkm_mvs_by_lvl[x, 1] < 152) {
         if (pkm_mvs_by_lvl[x, 2] == 1 & pkm_mvs_by_lvl[x, 5] > 0) {
-            g1_pkm_rby_pokeid <- append(g1_pkm_rby_pokeid, pkm_mvs_by_lvl[x, 1])
-            g1_pkm_rby_moveid <- append(g1_pkm_rby_moveid, pkm_mvs_by_lvl[x, 3])
-            g1_pkm_rby_level <- append(g1_pkm_rby_level, pkm_mvs_by_lvl[x, 5])
+            g1_pkm_rb_pokeid <- append(g1_pkm_rb_pokeid, pkm_mvs_by_lvl[x, 1])
+            g1_pkm_rb_moveid <- append(g1_pkm_rb_moveid, pkm_mvs_by_lvl[x, 3])
+            g1_pkm_rb_level <- append(g1_pkm_rb_level, pkm_mvs_by_lvl[x, 5])
+
+            x <- x + 1
+        } else {
+            x <- x + 1
+        }
+    }
+
+    x <- 1
+    while (pkm_mvs_by_lvl[x, 1] < 152) {
+        if (pkm_mvs_by_lvl[x, 2] == 2 & pkm_mvs_by_lvl[x, 5] > 0) {
+            g1_pkm_y_pokeid <- append(g1_pkm_y_pokeid, pkm_mvs_by_lvl[x, 1])
+            g1_pkm_y_moveid <- append(g1_pkm_y_moveid, pkm_mvs_by_lvl[x, 3])
+            g1_pkm_y_level <- append(g1_pkm_y_level, pkm_mvs_by_lvl[x, 5])
 
             x <- x + 1
         } else {
@@ -71,9 +100,21 @@ g1_mv_func <- function() {
     # Extract the names from the ids
     y <- 1
     z <- 1
-    while (z < max(g1_pkm_rby_pokeid) + 1 & y < length(g1_pkm_rby_pokeid) + 1) {
-        if (g1_pkm_rby_pokeid[y] == list_of_pkm[z, 1]) {
-            g1_pkm_rby_name <- append(g1_pkm_rby_name, list_of_pkm[z, 2])
+    while (z < max(g1_pkm_rb_pokeid) + 1 & y < length(g1_pkm_rb_pokeid) + 1) {
+        if (g1_pkm_rb_pokeid[y] == list_of_pkm[z, 1]) {
+            g1_pkm_rb_name <- append(g1_pkm_rb_name, list_of_pkm[z, 2])
+
+            y <- y + 1
+        } else {
+            z <- z + 1
+        }
+    }
+
+    y <- 1
+    z <- 1
+    while (z < max(g1_pkm_y_pokeid) + 1 & y < length(g1_pkm_y_pokeid) + 1) {
+        if (g1_pkm_y_pokeid[y] == list_of_pkm[z, 1]) {
+            g1_pkm_y_name <- append(g1_pkm_y_name, list_of_pkm[z, 2])
 
             y <- y + 1
         } else {
@@ -85,16 +126,36 @@ g1_mv_func <- function() {
     # 920: Max move number is 919. No easy way to get that
     a <- 1
     b <- 1
-    while (b < 920 & a < length(g1_pkm_rby_pokeid) + 1) {
-        if (g1_pkm_rby_moveid[a] == pkm_mvs[b, 1]) {
-            g1_pkm_rby_movenames <- append(g1_pkm_rby_movenames, pkm_mvs[b, 2])
-            g1_pkm_rby_movetypeid <- append(
-                g1_pkm_rby_movetypeid,
+    while (b < 920 & a < length(g1_pkm_rb_pokeid) + 1) {
+        if (g1_pkm_rb_moveid[a] == pkm_mvs[b, 1]) {
+            g1_pkm_rb_movenames <- append(g1_pkm_rb_movenames, pkm_mvs[b, 2])
+            g1_pkm_rb_movetypeid <- append(
+                g1_pkm_rb_movetypeid,
                 pkm_mvs[b, 4]
             )
-            g1_pkm_rby_movepower <- append(g1_pkm_rby_movepower, pkm_mvs[b, 5])
-            g1_pkm_rby_movepp <- append(g1_pkm_rby_movepp, pkm_mvs[b, 6])
-            g1_pkm_rby_moveacc <- append(g1_pkm_rby_moveacc, pkm_mvs[b, 7])
+            g1_pkm_rb_movepower <- append(g1_pkm_rb_movepower, pkm_mvs[b, 5])
+            g1_pkm_rb_movepp <- append(g1_pkm_rb_movepp, pkm_mvs[b, 6])
+            g1_pkm_rb_moveacc <- append(g1_pkm_rb_moveacc, pkm_mvs[b, 7])
+
+            a <- a + 1
+            b <- 1
+        } else {
+            b <- b + 1
+        }
+    }
+
+    a <- 1
+    b <- 1
+    while (b < 920 & a < length(g1_pkm_y_pokeid) + 1) {
+        if (g1_pkm_y_moveid[a] == pkm_mvs[b, 1]) {
+            g1_pkm_y_movenames <- append(g1_pkm_y_movenames, pkm_mvs[b, 2])
+            g1_pkm_y_movetypeid <- append(
+                g1_pkm_y_movetypeid,
+                pkm_mvs[b, 4]
+            )
+            g1_pkm_y_movepower <- append(g1_pkm_y_movepower, pkm_mvs[b, 5])
+            g1_pkm_y_movepp <- append(g1_pkm_y_movepp, pkm_mvs[b, 6])
+            g1_pkm_y_moveacc <- append(g1_pkm_y_moveacc, pkm_mvs[b, 7])
 
             a <- a + 1
             b <- 1
@@ -106,9 +167,22 @@ g1_mv_func <- function() {
     # Get the move type from the movetype id
     w <- 1
     q <- 1
-    while (w < length(g1_pkm_rby_pokeid) + 1) {
-        if (g1_pkm_rby_movetypeid[w] == pkm_types[q, 1]) {
-            g1_pkm_rby_movetype <- append(g1_pkm_rby_movetype, pkm_types[q, 2])
+    while (w < length(g1_pkm_rb_pokeid) + 1) {
+        if (g1_pkm_rb_movetypeid[w] == pkm_types[q, 1]) {
+            g1_pkm_rb_movetype <- append(g1_pkm_rb_movetype, pkm_types[q, 2])
+
+            w <- w + 1
+            q <- 1
+        } else {
+            q <- q + 1
+        }
+    }
+
+    w <- 1
+    q <- 1
+    while (w < length(g1_pkm_y_pokeid) + 1) {
+        if (g1_pkm_y_movetypeid[w] == pkm_types[q, 1]) {
+            g1_pkm_y_movetype <- append(g1_pkm_y_movetype, pkm_types[q, 2])
 
             w <- w + 1
             q <- 1
@@ -118,15 +192,26 @@ g1_mv_func <- function() {
     }
 
     # global data table that will be posted in the app
-    gen_1_pkm <<- data.frame(
-        Pokedex = g1_pkm_rby_pokeid,
-        Pokemon = g1_pkm_rby_name,
-        Level = g1_pkm_rby_level,
-        Move = g1_pkm_rby_movenames,
-        Type = g1_pkm_rby_movetype,
-        Power = g1_pkm_rby_movepower,
-        pp = g1_pkm_rby_movepp,
-        Accuracy = g1_pkm_rby_moveacc
+    gen_rb_pkm <<- data.frame(
+        Pokedex = g1_pkm_rb_pokeid,
+        Pokemon = g1_pkm_rb_name,
+        Level = g1_pkm_rb_level,
+        Move = g1_pkm_rb_movenames,
+        Type = g1_pkm_rb_movetype,
+        Power = g1_pkm_rb_movepower,
+        pp = g1_pkm_rb_movepp,
+        Accuracy = g1_pkm_rb_moveacc
+    )
+
+    gen_y_pkm <<- data.frame(
+        Pokedex = g1_pkm_y_pokeid,
+        Pokemon = g1_pkm_y_name,
+        Level = g1_pkm_y_level,
+        Move = g1_pkm_y_movenames,
+        Type = g1_pkm_y_movetype,
+        Power = g1_pkm_y_movepower,
+        pp = g1_pkm_y_movepp,
+        Accuracy = g1_pkm_y_moveacc
     )
 }
 
@@ -314,40 +399,112 @@ g2_mv_func()
 ui <- fluidPage(
     tabsetPanel(
         tabPanel(
-            "Gen 1",
-            DT::DTOutput("gen1")
+            "Red/Blue",
+            DT::DTOutput("genrb")
         ),
         tabPanel(
-            "Gen 2",
-            DT::DTOutput("gen2")
+            "Yellow",
+            DT::DTOutput("geny")
         ),
         tabPanel(
-            "Gen 3",
-            DT::DTOutput("gen3")
+            "Gold/Silver",
+            DT::DTOutput("gengs")
         ),
         tabPanel(
-            "Gen 4",
-            DT::DTOutput("gen4")
+            "Crystal",
+            DT::DTOutput("genc")
         ),
         tabPanel(
-            "Gen 5",
-            DT::DTOutput("gen5")
+            "Ruby/Sapphire",
+            DT::DTOutput("genrs")
         ),
         tabPanel(
-            "Gen 6",
-            DT::DTOutput("gen6")
+            "Emerald",
+            DT::DTOutput("gene")
         ),
         tabPanel(
-            "Gen 7",
-            DT::DTOutput("gen7")
+            "FireRed/LeafGreen",
+            DT::DTOutput("genfrlg")
         ),
         tabPanel(
-            "Gen 8",
-            DT::DTOutput("gen8")
+            "Diamond/Pearl",
+            DT::DTOutput("gendp")
         ),
         tabPanel(
-            "Gen 9",
-            DT::DTOutput("gen9")
+            "Platinum",
+            DT::DTOutput("genp")
+        ),
+        tabPanel(
+            "HeartGold/SoulSilver",
+            DT::DTOutput("genhgss")
+        ),
+        tabPanel(
+            "Black/White",
+            DT::DTOutput("genbw")
+        ),
+        tabPanel(
+            "Colloseum",
+            DT::DTOutput("gencol")
+        ),
+        tabPanel(
+            "XD",
+            DT::DTOutput("genxd")
+        ),
+        tabPanel(
+            "Black 2/White 2",
+            DT::DTOutput("genb2w2")
+        ),
+        tabPanel(
+            "X/Y",
+            DT::DTOutput("genxy")
+        ),
+        tabPanel(
+            "Omega Ruby/Alpha Sapphire",
+            DT::DTOutput("genoras")
+        ),
+        tabPanel(
+            "Sun/Moon",
+            DT::DTOutput("gensm")
+        ),
+        tabPanel(
+            "Ultra Sun/Ultra Moon",
+            DT::DTOutput("genusum")
+        ),
+        tabPanel(
+            "Let's go, Pikachu!/Let's go, Eevee!",
+            DT::DTOutput("genlgplge")
+        ),
+        tabPanel(
+            "Sword/Shield",
+            DT::DTOutput("genss")
+        ),
+        tabPanel(
+            "The Isle of Armor",
+            DT::DTOutput("gentioa")
+        ),
+        tabPanel(
+            "The Crown Tundra",
+            DT::DTOutput("gentct")
+        ),
+        tabPanel(
+            "Brilliant Diamond/Shining Pearl",
+            DT::DTOutput("genbdsp")
+        ),
+        tabPanel(
+            "Legends Arceus",
+            DT::DTOutput("genla")
+        ),
+        tabPanel(
+            "Scarlet/Violet",
+            DT::DTOutput("gensv")
+        ),
+        tabPanel(
+            "The Teal Mask",
+            DT::DTOutput("genttm")
+        ),
+        tabPanel(
+            "The Indigo Disk",
+            DT::DTOutput("gentid")
         )
     )
 )
@@ -355,11 +512,30 @@ ui <- fluidPage(
 
 # Server
 server <- function(input, output, session) {
-    # Gen 1 table
-    output$gen1 <- DT::renderDT(
+    # Gen 1 tables
+    output$genrb <- DT::renderDT(
         {
             dtable <- datatable(
-                gen_1_pkm,
+                gen_rb_pkm,
+                rownames = FALSE,
+                options = list(rowsGroup = list(0, 1))
+            )
+            path <- getwd()
+            dep <- htmltools::htmlDependency(
+                "RowsGroup",
+                "2.0.0",
+                path,
+                script = "dataTables.rowsGroup.js"
+            )
+            dtable$dependencies = c(dtable$dependencies, list(dep))
+            dtable
+        }
+    )
+
+    output$geny <- DT::renderDT(
+        {
+            dtable <- datatable(
+                gen_y_pkm,
                 rownames = FALSE,
                 options = list(rowsGroup = list(0, 1))
             )
