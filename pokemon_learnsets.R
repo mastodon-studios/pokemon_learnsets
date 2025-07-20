@@ -218,25 +218,49 @@ g1_mv_func <- function() {
 
 # Gen 2 moves
 g2_mv_func <- function() {
-    pkm_gsc_pokeid <- c()
-    pkm_gsc_name <- c()
-    pkm_gsc_moveid <- c()
-    pkm_gsc_movenames <- c()
-    pkm_gsc_movetypeid <- c()
-    pkm_gsc_movetype <- c()
-    pkm_gsc_movepower <- c()
-    pkm_gsc_moveacc <- c()
-    pkm_gsc_movepp <- c()
-    pkm_gsc_level <- c()
+    g1_pkm_gs_pokeid <- c()
+    g1_pkm_gs_name <- c()
+    g1_pkm_gs_moveid <- c()
+    g1_pkm_gs_movenames <- c()
+    g1_pkm_gs_movetypeid <- c()
+    g1_pkm_gs_movetype <- c()
+    g1_pkm_gs_movepower <- c()
+    g1_pkm_gs_moveacc <- c()
+    g1_pkm_gs_movepp <- c()
+    g1_pkm_gs_level <- c()
 
-    # getting up to g2 pokemon with the right moveset
+    g1_pkm_c_pokeid <- c()
+    g1_pkm_c_name <- c()
+    g1_pkm_c_moveid <- c()
+    g1_pkm_c_movenames <- c()
+    g1_pkm_c_movetypeid <- c()
+    g1_pkm_c_movetype <- c()
+    g1_pkm_c_movepower <- c()
+    g1_pkm_c_moveacc <- c()
+    g1_pkm_c_movepp <- c()
+    g1_pkm_c_level <- c()
+
+    # getting g1 pokemon with the right moveset
     # 252: Max gen number is 251; no easy way to get this otherwise I don't think
     x <- 1
     while (pkm_mvs_by_lvl[x, 1] < 252) {
-        if (pkm_mvs_by_lvl[x, 2] == 2 & pkm_mvs_by_lvl[x, 5] > 0) {
-            pkm_gsc_pokeid <- append(pkm_gsc_pokeid, pkm_mvs_by_lvl[x, 1])
-            pkm_gsc_moveid <- append(pkm_gsc_moveid, pkm_mvs_by_lvl[x, 3])
-            pkm_gsc_level <- append(pkm_gsc_level, pkm_mvs_by_lvl[x, 5])
+        if (pkm_mvs_by_lvl[x, 2] == 3 & pkm_mvs_by_lvl[x, 5] > 0) {
+            g1_pkm_gs_pokeid <- append(g1_pkm_gs_pokeid, pkm_mvs_by_lvl[x, 1])
+            g1_pkm_gs_moveid <- append(g1_pkm_gs_moveid, pkm_mvs_by_lvl[x, 3])
+            g1_pkm_gs_level <- append(g1_pkm_gs_level, pkm_mvs_by_lvl[x, 5])
+
+            x <- x + 1
+        } else {
+            x <- x + 1
+        }
+    }
+
+    x <- 1
+    while (pkm_mvs_by_lvl[x, 1] < 252) {
+        if (pkm_mvs_by_lvl[x, 2] == 4 & pkm_mvs_by_lvl[x, 5] > 0) {
+            g1_pkm_c_pokeid <- append(g1_pkm_c_pokeid, pkm_mvs_by_lvl[x, 1])
+            g1_pkm_c_moveid <- append(g1_pkm_c_moveid, pkm_mvs_by_lvl[x, 3])
+            g1_pkm_c_level <- append(g1_pkm_c_level, pkm_mvs_by_lvl[x, 5])
 
             x <- x + 1
         } else {
@@ -247,9 +271,21 @@ g2_mv_func <- function() {
     # Extract the names from the ids
     y <- 1
     z <- 1
-    while (z < max(pkm_gsc_pokeid) + 1 & y < length(pkm_gsc_pokeid) + 1) {
-        if (pkm_gsc_pokeid[y] == list_of_pkm[z, 1]) {
-            pkm_gsc_name <- append(pkm_gsc_name, list_of_pkm[z, 2])
+    while (z < max(g1_pkm_gs_pokeid) + 1 & y < length(g1_pkm_gs_pokeid) + 1) {
+        if (g1_pkm_gs_pokeid[y] == list_of_pkm[z, 1]) {
+            g1_pkm_gs_name <- append(g1_pkm_gs_name, list_of_pkm[z, 2])
+
+            y <- y + 1
+        } else {
+            z <- z + 1
+        }
+    }
+
+    y <- 1
+    z <- 1
+    while (z < max(g1_pkm_c_pokeid) + 1 & y < length(g1_pkm_c_pokeid) + 1) {
+        if (g1_pkm_c_pokeid[y] == list_of_pkm[z, 1]) {
+            g1_pkm_c_name <- append(g1_pkm_c_name, list_of_pkm[z, 2])
 
             y <- y + 1
         } else {
@@ -261,16 +297,36 @@ g2_mv_func <- function() {
     # 920: Max move number is 919. No easy way to get that
     a <- 1
     b <- 1
-    while (b < 920 & a < length(pkm_gsc_pokeid) + 1) {
-        if (pkm_gsc_moveid[a] == pkm_mvs[b, 1]) {
-            pkm_gsc_movenames <- append(pkm_gsc_movenames, pkm_mvs[b, 2])
-            pkm_gsc_movetypeid <- append(
-                pkm_gsc_movetypeid,
+    while (b < 920 & a < length(g1_pkm_gs_pokeid) + 1) {
+        if (g1_pkm_gs_moveid[a] == pkm_mvs[b, 1]) {
+            g1_pkm_gs_movenames <- append(g1_pkm_gs_movenames, pkm_mvs[b, 2])
+            g1_pkm_gs_movetypeid <- append(
+                g1_pkm_gs_movetypeid,
                 pkm_mvs[b, 4]
             )
-            pkm_gsc_movepower <- append(pkm_gsc_movepower, pkm_mvs[b, 5])
-            pkm_gsc_movepp <- append(pkm_gsc_movepp, pkm_mvs[b, 6])
-            pkm_gsc_moveacc <- append(pkm_gsc_moveacc, pkm_mvs[b, 7])
+            g1_pkm_gs_movepower <- append(g1_pkm_gs_movepower, pkm_mvs[b, 5])
+            g1_pkm_gs_movepp <- append(g1_pkm_gs_movepp, pkm_mvs[b, 6])
+            g1_pkm_gs_moveacc <- append(g1_pkm_gs_moveacc, pkm_mvs[b, 7])
+
+            a <- a + 1
+            b <- 1
+        } else {
+            b <- b + 1
+        }
+    }
+
+    a <- 1
+    b <- 1
+    while (b < 920 & a < length(g1_pkm_c_pokeid) + 1) {
+        if (g1_pkm_c_moveid[a] == pkm_mvs[b, 1]) {
+            g1_pkm_c_movenames <- append(g1_pkm_c_movenames, pkm_mvs[b, 2])
+            g1_pkm_c_movetypeid <- append(
+                g1_pkm_c_movetypeid,
+                pkm_mvs[b, 4]
+            )
+            g1_pkm_c_movepower <- append(g1_pkm_c_movepower, pkm_mvs[b, 5])
+            g1_pkm_c_movepp <- append(g1_pkm_c_movepp, pkm_mvs[b, 6])
+            g1_pkm_c_moveacc <- append(g1_pkm_c_moveacc, pkm_mvs[b, 7])
 
             a <- a + 1
             b <- 1
@@ -282,9 +338,22 @@ g2_mv_func <- function() {
     # Get the move type from the movetype id
     w <- 1
     q <- 1
-    while (w < length(pkm_gsc_pokeid) + 1) {
-        if (pkm_gsc_movetypeid[w] == pkm_types[q, 1]) {
-            pkm_gsc_movetype <- append(pkm_gsc_movetype, pkm_types[q, 2])
+    while (w < length(g1_pkm_gs_pokeid) + 1) {
+        if (g1_pkm_gs_movetypeid[w] == pkm_types[q, 1]) {
+            g1_pkm_gs_movetype <- append(g1_pkm_gs_movetype, pkm_types[q, 2])
+
+            w <- w + 1
+            q <- 1
+        } else {
+            q <- q + 1
+        }
+    }
+
+    w <- 1
+    q <- 1
+    while (w < length(g1_pkm_c_pokeid) + 1) {
+        if (g1_pkm_c_movetypeid[w] == pkm_types[q, 1]) {
+            g1_pkm_c_movetype <- append(g1_pkm_c_movetype, pkm_types[q, 2])
 
             w <- w + 1
             q <- 1
@@ -294,15 +363,26 @@ g2_mv_func <- function() {
     }
 
     # global data table that will be posted in the app
-    gen_2_pkm <<- data.frame(
-        Pokedex = pkm_gsc_pokeid,
-        Pokemon = pkm_gsc_name,
-        Level = pkm_gsc_level,
-        Move = pkm_gsc_movenames,
-        Type = pkm_gsc_movetype,
-        Power = pkm_gsc_movepower,
-        pp = pkm_gsc_movepp,
-        Accuracy = pkm_gsc_moveacc
+    gen_gs_pkm <<- data.frame(
+        Pokedex = g1_pkm_gs_pokeid,
+        Pokemon = g1_pkm_gs_name,
+        Level = g1_pkm_gs_level,
+        Move = g1_pkm_gs_movenames,
+        Type = g1_pkm_gs_movetype,
+        Power = g1_pkm_gs_movepower,
+        pp = g1_pkm_gs_movepp,
+        Accuracy = g1_pkm_gs_moveacc
+    )
+
+    gen_c_pkm <<- data.frame(
+        Pokedex = g1_pkm_c_pokeid,
+        Pokemon = g1_pkm_c_name,
+        Level = g1_pkm_c_level,
+        Move = g1_pkm_c_movenames,
+        Type = g1_pkm_c_movetype,
+        Power = g1_pkm_c_movepower,
+        pp = g1_pkm_c_movepp,
+        Accuracy = g1_pkm_c_moveacc
     )
 }
 
@@ -552,10 +632,29 @@ server <- function(input, output, session) {
     )
 
     # Gen 2 table
-    output$gen2 <- DT::renderDT(
+    output$gengs <- DT::renderDT(
         {
             dtable <- datatable(
-                gen_2_pkm,
+                gen_gs_pkm,
+                rownames = FALSE,
+                options = list(rowsGroup = list(0, 1))
+            )
+            path <- getwd()
+            dep <- htmltools::htmlDependency(
+                "RowsGroup",
+                "2.0.0",
+                path,
+                script = "dataTables.rowsGroup.js"
+            )
+            dtable$dependencies = c(dtable$dependencies, list(dep))
+            dtable
+        }
+    )
+
+    output$genc <- DT::renderDT(
+        {
+            dtable <- datatable(
+                gen_c_pkm,
                 rownames = FALSE,
                 options = list(rowsGroup = list(0, 1))
             )
