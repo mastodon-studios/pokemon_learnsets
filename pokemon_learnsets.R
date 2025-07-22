@@ -194,6 +194,113 @@ g1_mv_func <- function() {
 }
 
 
+# NEW TESTING STUFF FOR EFFICIENCY
+# YOU CAN USE SUBSETS TO MAKE THIS WAY BETTER
+# Example:
+# 1. loop through everything to get a nice data set
+# 2. make a subset, e.g. sub_data <- subset(pkm_data, Version < #, select = -c(Version))
+# The above means you only have to loop through everything ONCE, then you can
+# divvy up the data via the subset command (VERY fast!)
+# I need to re-write the code base now though :(
+
+test_func <- function() {
+    g1_pkm_rby_pokeid <- c()
+    g1_pkm_rby_versionid <- c()
+    g1_pkm_rby_name <- c()
+    g1_pkm_rby_moveid <- c()
+    g1_pkm_rby_movenames <- c()
+    g1_pkm_rby_movetypeid <- c()
+    g1_pkm_rby_movetype <- c()
+    g1_pkm_rby_movepower <- c()
+    g1_pkm_rby_moveacc <- c()
+    g1_pkm_rby_movepp <- c()
+    g1_pkm_rby_level <- c()
+
+    # getting g1 pokemon with the right moveset
+    # 152: Max gen number is 151; no easy way to get this otherwise I don't think
+    x <- 1
+    while (pkm_mvs_by_lvl[x, 1] < 152) {
+        if (pkm_mvs_by_lvl[x, 5] > 0) {
+            g1_pkm_rby_pokeid <- append(g1_pkm_rby_pokeid, pkm_mvs_by_lvl[x, 1])
+            g1_pkm_rby_versionid <- append(
+                g1_pkm_rby_versionid,
+                pkm_mvs_by_lvl[x, 2]
+            )
+            g1_pkm_rby_moveid <- append(g1_pkm_rby_moveid, pkm_mvs_by_lvl[x, 3])
+            g1_pkm_rby_level <- append(g1_pkm_rby_level, pkm_mvs_by_lvl[x, 5])
+
+            x <- x + 1
+        } else {
+            x <- x + 1
+        }
+    }
+
+    # Extract the names from the ids
+    y <- 1
+    z <- 1
+    while (z < max(g1_pkm_rby_pokeid) + 1 & y < length(g1_pkm_rby_pokeid) + 1) {
+        if (g1_pkm_rby_pokeid[y] == list_of_pkm[z, 1]) {
+            g1_pkm_rby_name <- append(g1_pkm_rby_name, list_of_pkm[z, 2])
+
+            y <- y + 1
+        } else {
+            z <- z + 1
+        }
+    }
+
+    # Get the move name, type, power, pp and acc from the move id
+    # 920: Max move number is 919. No easy way to get that
+    a <- 1
+    b <- 1
+    while (b < 920 & a < length(g1_pkm_rby_pokeid) + 1) {
+        if (g1_pkm_rby_moveid[a] == pkm_mvs[b, 1]) {
+            g1_pkm_rby_movenames <- append(g1_pkm_rby_movenames, pkm_mvs[b, 2])
+            g1_pkm_rby_movetypeid <- append(
+                g1_pkm_rby_movetypeid,
+                pkm_mvs[b, 4]
+            )
+            g1_pkm_rby_movepower <- append(g1_pkm_rby_movepower, pkm_mvs[b, 5])
+            g1_pkm_rby_movepp <- append(g1_pkm_rby_movepp, pkm_mvs[b, 6])
+            g1_pkm_rby_moveacc <- append(g1_pkm_rby_moveacc, pkm_mvs[b, 7])
+
+            a <- a + 1
+            b <- 1
+        } else {
+            b <- b + 1
+        }
+    }
+
+    # Get the move type from the movetype id
+    w <- 1
+    q <- 1
+    while (w < length(g1_pkm_rby_pokeid) + 1) {
+        if (g1_pkm_rby_movetypeid[w] == pkm_types[q, 1]) {
+            g1_pkm_rby_movetype <- append(g1_pkm_rby_movetype, pkm_types[q, 2])
+
+            w <- w + 1
+            q <- 1
+        } else {
+            q <- q + 1
+        }
+    }
+
+    # global data table that will be posted in the app
+    gen_rby_pkm <<- data.frame(
+        Pokedex = g1_pkm_rby_pokeid,
+        Version = g1_pkm_rby_versionid,
+        Pokemon = g1_pkm_rby_name,
+        Level = g1_pkm_rby_level,
+        Move = g1_pkm_rby_movenames,
+        Type = g1_pkm_rby_movetype,
+        Power = g1_pkm_rby_movepower,
+        pp = g1_pkm_rby_movepp,
+        Accuracy = g1_pkm_rby_moveacc
+    )
+}
+
+test_func()
+
+
 # Gen 2 moves (Gold, Silver, Crystal)
 g2_mv_func <- function() {
     g1_pkm_gs_pokeid <- c()
