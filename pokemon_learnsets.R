@@ -202,7 +202,71 @@ g1_mv_func <- function() {
 # The above means you only have to loop through everything ONCE, then you can
 # divvy up the data via the subset command (VERY fast!)
 # I need to re-write the code base now though :(
+# I just learned that while loops are slower than for loops; going to re-write this using for
+# Also: looking into vectorized functions (??) as they seem to be the fast thing in this language
 
+# Trying out vector stuff
+pokedex <- pkm_mvs_by_lvl[, 1]
+pokemon <- c()
+version <- pkm_mvs_by_lvl[, 2]
+level <- pkm_mvs_by_lvl[, 5]
+move_id <- pkm_mvs_by_lvl[, 3]
+move_data <- data.frame()
+move_type <- c()
+
+
+# This gets all the pokemon names without a for loop; functions through the lapply statements
+# Not sure how much more efficient this is, but it is a start
+replace_poke_id_with_names <- function(x) {
+    ifelse(
+        x %in% list_of_pkm[, 1],
+        pokemon <<- append(pokemon, list_of_pkm[x, 2])
+    )
+}
+
+replace_move_id_with_data <- function(x) {
+    ifelse(
+        x %in% pkm_mvs[, 1],
+        move_data <<- rbind(
+            move_data,
+            c(
+                pkm_mvs[x, 2],
+                pkm_mvs[x, 4],
+                pkm_mvs[x, 5],
+                pkm_mvs[x, 6],
+                pkm_mvs[x, 7]
+            )
+        )
+    )
+}
+
+replace_type_id_with_name <- function(x) {
+    ifelse(
+        x %in% pkm_types[, 1],
+        move_type <<- append(move_type, pkm_types[x, 2])
+    )
+}
+
+lapply(pokedex, replace_id_with_names)
+lapply(move_id, replace_move_id_with_data)
+lapply(move_data[, 2], replace_type_id_with_name)
+
+move_data[, 1]
+
+all_pkm_data <- data.frame(
+    Pokedex <- pokedex,
+    Pokemon <- pokemon,
+    Version <- version,
+    Level <- level,
+    Move <- move_data[, 1],
+    Type <- move_type,
+    Power <- move_data[, 3],
+    pp <- move_data[, 4],
+    Accuracy <- move_data[, 5]
+)
+
+
+#
 test_func <- function() {
     g1_pkm_rby_pokeid <- c()
     g1_pkm_rby_versionid <- c()
@@ -216,10 +280,8 @@ test_func <- function() {
     g1_pkm_rby_movepp <- c()
     g1_pkm_rby_level <- c()
 
-    # getting g1 pokemon with the right moveset
-    # 152: Max gen number is 151; no easy way to get this otherwise I don't think
-    x <- 1
-    while (pkm_mvs_by_lvl[x, 1] < 152) {
+    # 1:nrow(pkm_mvs_by_lvl)
+    for (x in 1:200) {
         if (pkm_mvs_by_lvl[x, 5] > 0) {
             g1_pkm_rby_pokeid <- append(g1_pkm_rby_pokeid, pkm_mvs_by_lvl[x, 1])
             g1_pkm_rby_versionid <- append(
@@ -232,6 +294,17 @@ test_func <- function() {
             x <- x + 1
         } else {
             x <- x + 1
+        }
+    }
+
+    for (x in z < max(g1_pkm_rby_pokeid) + 1 &
+        y < length(g1_pkm_rby_pokeid) + 1) {
+        if (g1_pkm_rby_pokeid[y] == list_of_pkm[z, 1]) {
+            g1_pkm_rby_name <- append(g1_pkm_rby_name, list_of_pkm[z, 2])
+
+            y <- y + 1
+        } else {
+            z <- z + 1
         }
     }
 
@@ -1452,6 +1525,10 @@ ui <- fluidPage(
         tabPanel(
             "The Indigo Disk",
             DT::DTOutput("gentid")
+        ),
+        tabPanel(
+            "Regional Forms",
+            DT::DTOutput("genreg")
         )
     )
 )
