@@ -1,5 +1,5 @@
 # Pokemon Learnsets
-This is the GitHub page that houses a Pokemon Learnsets table. The app can be found here:
+This is the GitHub page that houses a Pokemon Learnsets table. The app can be found here: https://mastodon-studios.github.io/pokemon_learnsets/
 
 ## About
 Pokemon learn moves as they level up. But these moves change from generation to generation. They even change on a per game basis!
