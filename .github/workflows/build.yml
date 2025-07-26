@@ -28,9 +28,7 @@ jobs:
             ${{ runner.os }}-r-
       
       - name: Install dependencies
-        run: Rscript -e 'install.packages("shinylive")'
-        run: Rscript -e 'install.packages("DT")'
-        run: Rscript -e 'install.packages("bslib")'
+        run: Rscript -e 'install.packages(c("shinylive", "DT", "bslib"))'
         
       
       - name: Build Site
