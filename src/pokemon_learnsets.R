@@ -8,10 +8,10 @@ library(DT)
 # DO NOT FORGET TO CREDIT THEM APPROPRIATELY
 
 # CSV data (from PokeAPI)
-list_of_pkm <- read.csv("list_of_pkm.csv")
-pkm_mvs_by_lvl <- read.csv("pkm_moves_by_lvl.csv")
-pkm_mvs <- read.csv("pkm_moves.csv")
-pkm_types <- read.csv("pkm_types.csv")
+list_of_pkm <- read.csv("src/list_of_pkm.csv")
+pkm_mvs_by_lvl <- read.csv("src/pkm_moves_by_lvl.csv")
+pkm_mvs <- read.csv("src/pkm_moves.csv")
+pkm_types <- read.csv("src/pkm_types.csv")
 
 
 # Pokemon data
@@ -308,7 +308,7 @@ pokemon_data_sorting <- function() {
     #gen_tid_pkm <<- subset(all_pkm_data, Version == 27 & Level != 0, select = -c(Version)) # missing
 
     # Regional forms
-    gen_reg_pkm <<- subset(reg_pkm_data, select = -c(Version))
+    gen_reg_pkm <<- subset(reg_pkm_data, Level != 0, select = -c(Version))
 }
 
 
@@ -428,7 +428,7 @@ ui <- fluidPage(
         #    DT::DTOutput("gentid")
         #),
         tabPanel(
-            "Regional Forms",
+            "Regional Forms/Other",
             DT::DTOutput("genreg")
         )
     )
@@ -450,7 +450,7 @@ server <- function(input, output, session) {
                 "RowsGroup",
                 "2.0.0",
                 path,
-                script = "dataTables.rowsGroup.js"
+                script = "src/dataTables.rowsGroup.js"
             )
             dtable$dependencies = c(dtable$dependencies, list(dep))
             dtable
