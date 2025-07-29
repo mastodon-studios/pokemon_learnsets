@@ -32,7 +32,7 @@ jobs:
         
       
       - name: Build Site
-        run: Rscript -e 'shinylive::export("src", "root")'
+        run: Rscript -e 'shinylive::export(appdir = "src", destdir = "docs")'
       
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
