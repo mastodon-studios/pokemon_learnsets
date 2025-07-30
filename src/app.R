@@ -8,10 +8,11 @@ library(DT)
 # DO NOT FORGET TO CREDIT THEM APPROPRIATELY
 
 # CSV data (from PokeAPI)
-list_of_pkm <- read.csv("src/list_of_pkm.csv")
-pkm_mvs_by_lvl <- read.csv("src/pkm_moves_by_lvl.csv")
-pkm_mvs <- read.csv("src/pkm_moves.csv")
-pkm_types <- read.csv("src/pkm_types.csv")
+# For the web app to work, need to link to the raw github files
+list_of_pkm <- read.csv("https://raw.githubusercontent.com/mastodon-studios/pokemon_learnsets/refs/heads/main/src/list_of_pkm.csv")
+pkm_mvs_by_lvl <- read.csv("https://raw.githubusercontent.com/mastodon-studios/pokemon_learnsets/refs/heads/main/src/pkm_moves_by_lvl.csv")
+pkm_mvs <- read.csv("https://raw.githubusercontent.com/mastodon-studios/pokemon_learnsets/refs/heads/main/src/pkm_moves.csv")
+pkm_types <- read.csv("https://raw.githubusercontent.com/mastodon-studios/pokemon_learnsets/refs/heads/main/src/pkm_types.csv")
 
 
 # Pokemon data
